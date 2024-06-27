@@ -57,4 +57,9 @@ function loadTasks() {
                 <button onclick="removeTask(this)">Remove</button>
             `;
             if (task.completed) {
-                taskItem
+                taskItem.classList.add('completed');
+            }
+            taskList.appendChild(taskItem);
+        }
+    }
+}
