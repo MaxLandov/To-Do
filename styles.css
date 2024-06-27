@@ -59,4 +59,20 @@ li {
     color: #ffffff;
     margin-bottom: 10px;
     border-radius: 5px;
-    display
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+li button {
+    background-color: #dc3545; /* Red */
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+li button:hover {
+    background-color: #c82333; /* Darker red */
+}
