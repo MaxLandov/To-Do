@@ -9,7 +9,10 @@ function addTask() {
     if (taskText !== "") {
         let taskList = document.getElementById('task-list');
         let taskItem = document.createElement('li');
-        taskItem.innerHTML = `${taskText} <button onclick="removeTask(this)">Remove</button>`;
+        taskItem.innerHTML = `
+            <span onclick="toggleComplete(this)">${taskText}</span>
+            <button onclick="removeTask(this)">Remove</button>
+        `;
         taskList.appendChild(taskItem);
 
         saveTasks();
@@ -23,11 +26,22 @@ function removeTask(taskElement) {
     saveTasks();
 }
 
+function toggleComplete(taskElement) {
+    let taskItem = taskElement.parentElement;
+    taskItem.classList.toggle('completed');
+    saveTasks();
+}
+
 function saveTasks() {
     let taskList = document.getElementById('task-list');
     let tasks = [];
     for (let i = 0; i < taskList.children.length; i++) {
-        tasks.push(taskList.children[i].innerText.replace(" Remove", ""));
+        let taskItem = taskList.children[i];
+        let task = {
+            text: taskItem.children[0].innerText,
+            completed: taskItem.classList.contains('completed')
+        };
+        tasks.push(task);
     }
     localStorage.setItem('tasks', JSON.stringify(tasks));
 }
@@ -38,8 +52,9 @@ function loadTasks() {
         let taskList = document.getElementById('task-list');
         for (let task of tasks) {
             let taskItem = document.createElement('li');
-            taskItem.innerHTML = `${task} <button onclick="removeTask(this)">Remove</button>`;
-            taskList.appendChild(taskItem);
-        }
-    }
-}
+            taskItem.innerHTML = `
+                <span onclick="toggleComplete(this)">${task.text}</span>
+                <button onclick="removeTask(this)">Remove</button>
+            `;
+            if (task.completed) {
+                taskItem
